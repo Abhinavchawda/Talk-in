@@ -10,8 +10,8 @@ function UserCard() {
           </div>
         </div>
         <div>
-          <div className='font-bold'>Jethalal</div>
-          <div>jetha@gmail.com</div>
+          <div className='font-bold'>John Smith</div>
+          <div>john@gmail.com</div>
         </div>
       </div>
     </div>

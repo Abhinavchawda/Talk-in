@@ -3,7 +3,7 @@ import UserCard from './UserCard';
 
 function Users() {
   return (
-    <div className='overflow-y-auto h-[70vh] my-2'>
+    <div className='overflow-y-auto h-[65vh] my-2'>
       <UserCard/>
       <UserCard/>
       <UserCard/>
