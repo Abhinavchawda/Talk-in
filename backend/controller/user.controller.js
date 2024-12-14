@@ -5,7 +5,7 @@ import createTokenAndSaveCookie from "../jwt/generateToken.js";
 export const signup = async (req, res) => {
     try {
         const { name, email, password, confirmPassword } = req.body;
-        
+
         if (password !== confirmPassword) {
             return res.status(400).json({ message: "Password not matched !" });
         }
@@ -17,9 +17,9 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);  // (password, salt)
         const newUser = await new User({
             "name": name,
-            "email" : email,
+            "email": email,
             password: hashedPassword
-        });        
+        });
 
         const user = {
             _id: newUser._id,
@@ -63,15 +63,27 @@ export const login = async (req, res) => {
         console.log("ERROR in user.controller.js in login : ", err);
         res.status(500).json({ message: "Server err in user.controller.js in login" });
     }
-} 
+}
 
 export const logout = async (req, res) => {
     try {
         res.clearCookie('jwt');
         res.status(200).json({ message: "Logged out successfully !" });
-    } 
+    }
     catch (err) {
         console.log("ERROR in user.controller.js in logout : ", err);
-        res.status(500).json({ message: "Server err in user.controller.js in logout" });
+        res.status(500).json({ message: "Server err in user.controller.js in logout()" });
+    }
+}
+
+export const getAllUsersProfile = async (req, res) => {
+    try {
+        const loggenInUser = req?.user?._id;   
+        //we want all users except the loggedInUser     
+        const filteredUsers = await User.find({ _id: { $ne: loggenInUser } }).select("name email");
+        res.status(201).json(filteredUsers);
+    } catch (error) {
+        console.log("ERROR in user.controller.js in getAllUsersProfile() : ", error);
+        res.status(500).json({ message: "Server err in user.controller.js in getAllUsersProfile()" });
     }
 }

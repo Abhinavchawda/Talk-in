@@ -4,6 +4,9 @@ const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 
+import cookieParser from 'cookie-parser';
+app.use(cookieParser());
+
 import cors from "cors";
 // Allow requests from specific origins
 app.use(cors({
