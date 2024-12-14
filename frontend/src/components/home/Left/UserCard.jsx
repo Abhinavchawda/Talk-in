@@ -1,6 +1,8 @@
 import React from 'react';
 
-function UserCard() {
+function UserCard(props) {
+  const userData = props.userData;
+
   return (
     <div>
       <div className='flex gap-5 my-2 p-4 rounded-lg hover:bg-gray-900 duration-300 cursor-pointer'>
@@ -10,8 +12,8 @@ function UserCard() {
           </div>
         </div>
         <div>
-          <div className='font-bold'>John Smith</div>
-          <div>john@gmail.com</div>
+          <div className='font-bold'>{userData.name}</div>
+          <div>{userData.email}</div>
         </div>
       </div>
     </div>
