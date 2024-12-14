@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [form, setForm] = useState({ email: "", password: "" });
 
     const loginFunc = async (e) => {
@@ -16,9 +20,13 @@ const Login = () => {
             credentials: "include",
             body: JSON.stringify(form) // The body must be a string
         });
-        // const data = await response.json();        
+        const data = await response.json();        
+        console.log("data : ", data);
+        
+        dispatch(loginSuccess(data));
 
         setForm({ email: "", password: "" });
+        navigate("/");
     }
 
     const handleChange = (e) => {

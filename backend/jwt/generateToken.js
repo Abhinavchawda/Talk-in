@@ -5,7 +5,7 @@ const createTokenAndSaveCookie = (userId, res) => {
         expiresIn: "1d"
     });
     res.cookie("jwt", token, {
-        httpOnly: true, //prevent us from xxs attacks
+        // httpOnly: true, //prevent us from xxs attacks
         secure: true,
         sameSite: true  //prevent us from csrf attacks
     })

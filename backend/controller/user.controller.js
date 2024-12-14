@@ -21,15 +21,15 @@ export const signup = async (req, res) => {
             password: hashedPassword
         });        
 
-        const userToPass = {
+        const user = {
             _id: newUser._id,
-            name,
-            email
+            "name": newUser.name,
+            "email": newUser.email
         }
 
         await newUser.save().then(() => {
-            createTokenAndSaveCookie(userToPass._id, res);
-            res.status(200).json({ message: "Sign-up successful !", userToPass });
+            createTokenAndSaveCookie(user._id, res);
+            res.status(200).json({ message: "Sign-up successful !", user });
         });
     }
     catch (err) {
@@ -51,13 +51,13 @@ export const login = async (req, res) => {
             res.status(404).json({ message: "Invalid credentials !" });
         }
 
-        const userToPass = {
+        const user = {
             _id: checkUser._id,
             name: checkUser.name,
             email: checkUser.email
         }
-        createTokenAndSaveCookie(userToPass._id, res);
-        res.status(201).json({ message: "Log-in successful !", userToPass });
+        createTokenAndSaveCookie(user._id, res);
+        res.status(201).json({ message: "Log-in successful !", user });
     }
     catch (err) {
         console.log("ERROR in user.controller.js in login : ", err);

@@ -1,38 +1,47 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../../features/auth/authSlice";
 
 const Signup = () => {
 
-    const [form, setForm] = useState({ "name": "", "email": "", "password": "", "confirmPassword": "" });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [form, setForm] = useState({ "name": "", "email": "", "password": "", "confirmPassword": "" });
 
-    const singupFunc = async (e) => {
-        e.preventDefault();
+  const singupFunc = async (e) => {
+    e.preventDefault();
 
-        const response = await fetch("http://localhost:8080/user/signup/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // Telling the server to expect JSON
-            },
-            credentials: "include",
-            body: JSON.stringify(form)
-        });
-        const data = await response.json();
-        
-        // setForm({ "name": "", "email": "", "password": "", "confirmPassword": "" });
-        setForm({});
-    }
+    const response = await fetch("http://localhost:8080/user/signup/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Telling the server to expect JSON
+      },
+      credentials: "include",
+      body: JSON.stringify(form)
+    });
+    const data = await response.json();
 
-    const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        });
-    }
+    // setForm({ "name": "", "email": "", "password": "", "confirmPassword": "" });
+    setForm({});
+    
+    dispatch(loginSuccess(data));
+
+    navigate("/");
+  }
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900 text-white">
       <div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-center mb-6">Signup</h2>
-        <form onSubmit={e =>singupFunc(e)} className="space-y-6">
+        <form onSubmit={e => singupFunc(e)} className="space-y-6">
           <div>
             <label className="block text-sm font-medium mb-1">Name</label>
             <input
