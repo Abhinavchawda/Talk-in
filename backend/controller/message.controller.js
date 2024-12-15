@@ -8,7 +8,7 @@ export const sendMessage = async (req, res) => {
         // cosnst { message } = req.body;
 
         const { id: receiverId } = req.params;  //receiver id
-
+        
         const senderId = req.user._id;  //loggedIn user is sendig messages, so it is sender
 
         //use let if const give error
@@ -18,18 +18,17 @@ export const sendMessage = async (req, res) => {
             conversation = await Conversation({
                 participants: [senderId, receiverId]
             });
-            const newMessage = await Message({
-                senderId,
-                receiverId,
-                message
-            });
-            if (newMessage) {
-                conversation.messages.push(newMessage._id);
-            }
-            await Promise.all([newMessage.save(), conversation.save()])
-            res.status(201).json({ message: "Message sent successfully !", newMessage });
         }
-
+        const newMessage = await Message({
+            senderId,
+            receiverId,
+            message
+        });
+        if (newMessage) {
+            conversation.messages.push(newMessage._id);
+        }
+        await Promise.all([newMessage.save(), conversation.save()])
+        res.status(201).json(newMessage);
     }
     catch (error) {
         console.log("ERROR in message.controller.js in sendMessage() : ", error);
@@ -48,10 +47,10 @@ export const getMessage = async (req, res) => {
         ).populate("messages");
 
         if (!conversation) {
-            res.status(201).json({ message: "No conversation found" });
+            res.status(201).json({});
         }
 
-        const messages = conversation.messages;
+        const messages = conversation?.messages;
         res.status(201).json(messages);
     }
     catch (error) {

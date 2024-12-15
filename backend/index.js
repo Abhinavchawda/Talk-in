@@ -1,13 +1,13 @@
 import express from 'express';
-const app = express();
-
+import mongoose from 'mongoose';
 import dotenv from "dotenv";
-dotenv.config();
-
 import cookieParser from 'cookie-parser';
+import cors from "cors";
+import { server, app } from './socketIO/server.js';
+
+dotenv.config();
 app.use(cookieParser());
 
-import cors from "cors";
 // Allow requests from specific origins
 app.use(cors({
   origin: "http://localhost:5173", // Your React app's URL
@@ -15,7 +15,6 @@ app.use(cors({
   credentials: true, // Allow cookies if needed
 }));
 
-import mongoose from 'mongoose';
 
 app.use(express.json()); // to parse req.body
 
@@ -39,6 +38,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`App is listening on port ${port}`)
 })

@@ -1,16 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-function MessageCard() {
+function MessageCard(props) {
+    const messageData = props.message;
+
+    const loggedInUserId = useSelector(state => state?.auth?.user?._id);
+    
     return (
         <div>
-            <div className="chat chat-start">
-                <div className="chat-bubble chat-bubble-accent">
-                    That's never been done in the history of the Jedi. It's insulting!
+            {(messageData?.senderId === loggedInUserId)
+                ?
+                <div className="chat chat-end">
+                    <div className="chat-bubble chat-bubble-info">{messageData.message}</div>
                 </div>
-            </div>
-            <div className="chat chat-end">
-                <div className="chat-bubble chat-bubble-info">Calm down, Anakin.</div>
-            </div>
+                :
+                <div className="chat chat-start">
+                    <div className="chat-bubble chat-bubble-accent">{messageData.message}</div>
+                </div>
+            }
         </div>
     )
 }
