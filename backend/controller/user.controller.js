@@ -87,3 +87,11 @@ export const getAllUsersProfile = async (req, res) => {
         res.status(500).json({ message: "Server err in user.controller.js in getAllUsersProfile()" });
     }
 }
+
+export const checkUserLoggedIn = async (req, res) => {
+    const user = req.user;
+    if(user)
+        res.status(200).json(user);    //status ok
+    else
+        res.status(500);    //status error
+}
