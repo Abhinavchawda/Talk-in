@@ -28,7 +28,7 @@ function Users() {
   return (
     <div className='overflow-y-auto h-[65vh] my-2'>
       {users && users.filter((item) =>
-        item.name?.toLowerCase().trim().includes(searchString.toLowerCase().trim())
+        (item.name?.toLowerCase().trim().includes(searchString.toLowerCase().trim()) || item.email?.toLowerCase().trim().includes(searchString.toLowerCase().trim()))
       ).
       map((u, index) => {
         return <UserCard key={index} userData={u} />;
