@@ -5,16 +5,14 @@ import TypeBar from './TypeBar';
 
 const Right = () => {
   return (
-    <div className='bg-slate-950 w-[70%] h-screen border border-black p-4 overflow-y-auto'>
-      <div className='fixed top-0 z-10 w-full'>
-        <ChatUser />
-      </div>
+    <div className='bg-slate-950 h-screen border border-black overflow-y-auto relative'>
+      <ChatUser />
 
-      <div className='mb-1'> 
+      <div className='mb-1 px-4'>
         <Messages />
       </div>
 
-      <div className='fixed bottom-0 w-[70%]'>
+      <div className='sticky z-10 bottom-0'>
         <TypeBar />
       </div>
     </div>

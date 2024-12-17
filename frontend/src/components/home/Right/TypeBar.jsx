@@ -13,7 +13,7 @@ function TypeBar() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(form.message && form.message.length > 0) {
+        if (form.message && form.message.length > 0) {
             try {
                 console.log("Typed message: ", form?.message);
                 await sendMessages(form?.message);
@@ -25,18 +25,18 @@ function TypeBar() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className='bg-slate-900 rounded-xl bg-fixed'>
-            <div className='flex gap-3 h-[10vh] items-center mx-auto mt-2 w-[80%]'>
+        <form onSubmit={handleSubmit}>
+            <div className="flex items-center px-4 py-3 bg-slate-950 border-t border-darkblue-700/50 nset-0 backdrop-blur-md">
                 <input
                     type="text"
-                    name="message"
+                    name='message'
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Type here"
-                    className="input input-bordered w-full h-12 bg-slate-950" />
-
-                <button type='submit' className='bg-white h-12 w-12 rounded-lg flex items-center justify-center cursor-pointer'>
-                    <MdSend className='text-black h-6 w-6 hover:scale-110' />
+                    placeholder="Type your message..."
+                    className="flex-1 px-4 py-3 bg-slate-900 text-white rounded-lg focus:outline-none"
+                />
+                <button type='submit' className='bg-slate-900 px-4 py-3 rounded-lg flex items-center justify-center cursor-pointer transition mx-3'>
+                    <MdSend className='h-6 w-6 hover:scale-110' />
                 </button>
             </div>
         </form>

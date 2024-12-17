@@ -11,10 +11,7 @@ const chatSlice = new createSlice({
     initialState,
     reducers: {
         setLoading(state, action) {
-            // if(action.payload === "false")
-                state.loading = 0;
-            // else
-            //     state.loading = 1;
+            state.loading = action.payload;
         },
         setSelectedChatUser(state, action) {
             state.selectedChatUser = action.payload;

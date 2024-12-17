@@ -1,21 +1,29 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedChatUser } from '../../../features/chat/chatSlice';
+import { IoArrowBack } from 'react-icons/io5';
 
 function ChatUser() {
     const selectedChatUser = useSelector(state => state?.chat?.selectedChatUser);
 
+    const onlineUsers = useSelector(state => state.socket.onlineUsers);
+    const isOnline = onlineUsers.includes(selectedChatUser._id);
+
+    const dispatch = useDispatch();
     return (
-        <div className='fixed z-10 w-full'>
-            <div className='flex gap-5 mb-2 p-3 h-[10vh] rounded-xl cursor-pointer bg-slate-900 hover:bg-gray-900 duration-300'>
-            <div className="avatar online">
-                <div className="w-12 rounded-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                </div>
-            </div>
-            <div>
-                <div className='font-bold'>{selectedChatUser?.name}</div>
-                <div className='text-sm'>Online</div>
-            </div>
+        <div className='sticky top-0 z-10 flex items-center px-2 py-3 bg-slate-950 border-b'>
+            <button className="mr-2 p-1 hover:bg-gray-800 rounded-full" onClick={() => dispatch(setSelectedChatUser(null))}>
+                <IoArrowBack className="h-5 w-5 text-white" />
+            </button>
+
+            <img
+                src={selectedChatUser?.image || 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'}
+                alt="User"
+                className="w-10 h-10 rounded-full"
+            />
+            <div className="ml-3">
+                <h2 className="text-lg font-semibold">{selectedChatUser?.name || 'User Name'}</h2>
+                <p className="text-sm text-blue-400">{isOnline ? 'Online' : 'Offline'}</p>
             </div>
         </div>
     )
