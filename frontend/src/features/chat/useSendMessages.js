@@ -9,15 +9,11 @@ export default function useSendMessages() {
     const loading = useSelector(state => state?.chat?.loading);
 
     const selectedChatId = useSelector(state => state.chat?.selectedChatUser?._id);
-    console.log("receiver id : ", selectedChatId);
 
     const sendMessages = async (message) => {
         dispatch(setLoading(true));
         if (selectedChatId && message && message.length > 0) {
             try {
-                console.log("sending: ", { "message": message });
-                console.log("receiver id: ", selectedChatId);
-
                 const response = await fetch(`http://localhost:8080/message/send/${selectedChatId}/`, {
                     method: "POST",
                     credentials: "include",

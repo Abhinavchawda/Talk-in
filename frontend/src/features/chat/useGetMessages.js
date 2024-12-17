@@ -9,7 +9,6 @@ export default function useGetMessages() {
     const loading = useSelector(state => state?.chat?.loading);
     
     const selectedChatId = useSelector(state => state.chat?.selectedChatUser?._id);
-    console.log("id : ", selectedChatId);
     
     useEffect(() => {
         const getMessages = async () => {
@@ -21,7 +20,6 @@ export default function useGetMessages() {
                         credentials: "include"
                     });
                     const data = await response.json();
-                    console.log("messages : ", data);
 
                     dispatch(setMessages(data));
                     dispatch(setLoading(false));

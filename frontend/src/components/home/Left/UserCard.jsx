@@ -15,7 +15,7 @@ function UserCard(props) {
   const onlineStatus = onlineUsers.includes(userData._id);
 
   return (
-    <div className={`hover:bg-slate-600 duration-300 ${isSelected ? 'bg-slate-700' : ''} `}
+    <div className={`hover:bg-slate-600 hover:scale-[0.99] transition-all rounded-xl duration-300 ${isSelected ? 'bg-slate-700' : ''} `}
       onClick={e => {
         dispatch(setSelectedChatUser(userData));
       }}

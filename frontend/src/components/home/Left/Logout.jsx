@@ -26,7 +26,6 @@ function Logout() {
             .catch(error => console.error('Logout failed', error));
 
         const data = await response.json();
-        console.log("data : ", data);
     }
     return (
         <div>

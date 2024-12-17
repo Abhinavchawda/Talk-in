@@ -8,6 +8,9 @@ import Left from "./components/home/Left/Left";
 import Right from "./components/home/Right/Right";
 import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
+import Sidebar from "./components/Sidebar";
+import UserProfile from "./components/UserProfile";
+import Protected from "./features/auth/Protected";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,36 +40,41 @@ function App() {
   return (
     <>
       <Router>
-        <div className="min-h-screen bg-gray-900 text-white">
-          <Routes>
-            <Route path="/" element={
-              isAuthenticated ?
-                <div className="flex flex-col md:flex-row min-h-screen">
-                  <div className="block md:hidden">
-                    {selectedChatUser ? <Right /> : <Left />}
-                  </div>
-                  <div className="hidden md:flex w-full">
-                    <div className="w-full md:w-[30%]">
-                      <Left />
-                    </div>
+        <div className="flex font-nunito">
+          <div><Protected><Sidebar /></Protected></div>
 
-                    {selectedChatUser ?
-                      <div className="w-full md:w-[70%] flex-1">
-                        <Right />
+          <div className="min-h-screen bg-gray-900 text-white w-full">
+            <Routes>
+              <Route path="/" element={
+                isAuthenticated ?
+                  <div className="flex flex-col md:flex-row min-h-screen">
+                    <div className="block md:hidden">
+                      {selectedChatUser ? <Right /> : <Left />}
+                    </div>
+                    <div className="hidden md:flex w-full">
+                      <div className="w-full md:w-[30%]">
+                        <Left />
                       </div>
-                      :
-                      <div className="text-xl flex justify-center items-center mx-auto">
-                        Say, Hi and start conversation 😊
-                      </div>
-                    }
+
+                      {selectedChatUser ?
+                        <div className="w-full md:w-[70%] flex-1">
+                          <Right />
+                        </div>
+                        :
+                        <div className="text-xl flex justify-center items-center mx-auto">
+                          Say, Hi and start conversation 😊
+                        </div>
+                      }
+                    </div>
                   </div>
-                </div>
-                : <Navigate to='/login' />
-            } />
-            <Route path="/login" element={isAuthenticated ? <Navigate to='/' /> : <Login />} />
-            <Route path="/signup" element={isAuthenticated ? <Navigate to='/' /> : <Signup />} />
-            <Route path="*" element={<Navigate to='/' />} />
-          </Routes>
+                  : <Navigate to='/login' />
+              } />
+              <Route path="/login" element={isAuthenticated ? <Navigate to='/' /> : <Login />} />
+              <Route path="/signup" element={isAuthenticated ? <Navigate to='/' /> : <Signup />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="*" element={<Navigate to='/' />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </>

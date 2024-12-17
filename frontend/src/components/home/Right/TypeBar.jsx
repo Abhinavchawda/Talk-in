@@ -15,7 +15,6 @@ function TypeBar() {
         e.preventDefault();
         if (form.message && form.message.length > 0) {
             try {
-                console.log("Typed message: ", form?.message);
                 await sendMessages(form?.message);
                 setForm({ message: "" });
             } catch (error) {
