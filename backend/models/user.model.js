@@ -6,6 +6,8 @@ const userSchema = Schema({
     password: { type: String, require: true},
     confirmPassword: { type: String },
     // confirmPassword: { type: String, require: true},
+    about: {type: String, default: "Hello there! I am using Social Media"},
+    phone: {type: String, default: ""},
 },
 {
     timestamps: true //createdAt and UpdatedAt

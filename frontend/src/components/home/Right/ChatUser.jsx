@@ -2,8 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedChatUser } from '../../../features/chat/chatSlice';
 import { IoArrowBack } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
 function ChatUser() {
+    const navigate = useNavigate();
     const selectedChatUser = useSelector(state => state?.chat?.selectedChatUser);
 
     const onlineUsers = useSelector(state => state.socket.onlineUsers);
@@ -11,7 +13,11 @@ function ChatUser() {
 
     const dispatch = useDispatch();
     return (
-        <div className='sticky top-0 z-10 flex items-center px-2 py-3 bg-slate-950 border-b'>
+        <div onClick={() => {
+            console.log('clicked : '); 
+            navigate(`/user/profile/${selectedChatUser._id}`);
+        }
+        } className='cursor-pointer sticky top-0 z-10 flex items-center px-2 py-3 bg-slate-950 border-b'>
             <button className="mr-2 p-1 hover:bg-gray-800 rounded-full" onClick={() => dispatch(setSelectedChatUser(null))}>
                 <IoArrowBack className="h-5 w-5 text-white" />
             </button>

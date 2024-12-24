@@ -76,6 +76,17 @@ export const logout = async (req, res) => {
     }
 }
 
+export const getUserProfile = async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const user = await User.findById(_id).select("-password");
+        res.status(201).json(user);
+    } catch (error) {
+        console.log("ERROR in user.controller.js in getUserProfile() : ", error);
+        res.status(500).json({ message: "Server err in user.controller.js in getUserProfile()" });
+    }
+}
+
 export const getAllUsersProfile = async (req, res) => {
     try {
         const loggenInUser = req?.user?._id;   
@@ -94,4 +105,19 @@ export const checkUserLoggedIn = async (req, res) => {
         res.status(200).json(user);    //status ok
     else
         res.status(500);    //status error
+}
+
+export const updateUserProfile = async (req, res) => {
+    try {
+        const data = req.body;        
+        if(req.params._id != req.user._id) {    //i have not used === because _id is a string and req.user._id is an object
+            return res.status(401).json({ message: "Unauthorised access !" });
+        }
+        await User.findByIdAndUpdate(req.params._id, data);
+        res.status(201).json({ message: "Profile updated successfully !" });
+    }
+    catch (error) {
+        console.log("ERROR in user.controller.js in updateUserProfile() : ", error);
+        res.status(500).json({ message: "Server err in user.controller.js in updateUserProfile()" });
+    }
 }

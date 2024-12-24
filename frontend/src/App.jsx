@@ -71,7 +71,7 @@ function App() {
               } />
               <Route path="/login" element={isAuthenticated ? <Navigate to='/' /> : <Login />} />
               <Route path="/signup" element={isAuthenticated ? <Navigate to='/' /> : <Signup />} />
-              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/user/profile/:_id" element={<UserProfile />} />
               <Route path="*" element={<Navigate to='/' />} />
             </Routes>
           </div>

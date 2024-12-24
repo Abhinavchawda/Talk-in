@@ -11,7 +11,7 @@ app.use(cookieParser());
 // Allow requests from specific origins
 app.use(cors({
   origin: "http://localhost:5173", // Your React app's URL
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE"], // Allowed HTTP methods
   credentials: true, // Allow cookies if needed
 }));
 
