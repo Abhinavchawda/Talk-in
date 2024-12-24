@@ -1,7 +1,7 @@
 import React from 'react';
-import ChatUser from './ChatUser';
-import Messages from './Messages';
-import TypeBar from './TypeBar';
+import ChatUser from '../../../features/chat/components/ChatUser';
+import Messages from '../../../features/chat/components/Messages';
+import TypeBar from '../../../features/chat/components/TypeBar';
 
 const Right = () => {
   return (

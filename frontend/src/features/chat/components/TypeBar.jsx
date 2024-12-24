@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MdSend } from "react-icons/md";
-import useSendMessages from '../../../features/chat/useSendMessages.js';
+import useSendMessages from '../useSendMessages.js';
 
 function TypeBar() {
     const { loading, sendMessages } = useSendMessages();

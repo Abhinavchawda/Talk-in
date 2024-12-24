@@ -3,7 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import { useDispatch } from 'react-redux';
 
 import { useNavigate } from "react-router-dom";
-import { logout } from '../../../features/auth/authSlice';
+import { logout } from '../authSlice';
 
 
 function Logout() {
@@ -13,13 +13,12 @@ function Logout() {
         e.preventDefault();
 
         const response = await fetch("http://localhost:8080/user/logout/", {
-            method: "POST"
+            method: "POST",
+            credentials: "include"
         })
             .then(resp => {
                 dispatch(logout());
                 if (resp.ok) {
-                    // Set the cookie's expiration to a past date to delete it
-                    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     navigate('/login');
                 }
             })

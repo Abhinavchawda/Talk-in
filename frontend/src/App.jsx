@@ -6,8 +6,8 @@ import useSocketCustom from "./features/socket/useSocketCustom";
 
 import Left from "./components/home/Left/Left";
 import Right from "./components/home/Right/Right";
-import Signup from "./components/auth/Signup";
-import Login from "./components/auth/Login";
+import Signup from "./features/auth/components/Signup";
+import Login from "./features/auth/components/Login";
 import Sidebar from "./components/Sidebar";
 import UserProfile from "./components/UserProfile";
 import Protected from "./features/auth/Protected";

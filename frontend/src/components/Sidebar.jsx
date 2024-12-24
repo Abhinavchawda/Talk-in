@@ -1,5 +1,5 @@
 import React from 'react';
-import Logout from './home/Left/Logout';
+import Logout from '../features/auth/components/Logout';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 

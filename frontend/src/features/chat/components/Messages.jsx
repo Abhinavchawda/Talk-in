@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import MessageCard from './MessageCard';
-import Loading from "../../Loading.jsx";
-import useGetMessages from '../../../features/chat/useGetMessages.js';
-import useGetSocketMessage from '../../../features/socket/useGetSocketMessage.jsx';
+import MessageCard from './MessageCard.jsx';
+import Loading from "../../../components/Loading.jsx";
+import useGetMessages from '../useGetMessages.js';
+import useGetSocketMessage from '../../socket/useGetSocketMessage.jsx';
 
 function Messages() {
     
