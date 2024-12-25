@@ -11,6 +11,7 @@ import Login from "./features/auth/components/Login";
 import Sidebar from "./components/Sidebar";
 import UserProfile from "./components/UserProfile";
 import Protected from "./features/auth/Protected";
+import LabelledMessages from "./components/LabelledMessages";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ function App() {
               <Route path="/login" element={isAuthenticated ? <Navigate to='/' /> : <Login />} />
               <Route path="/signup" element={isAuthenticated ? <Navigate to='/' /> : <Signup />} />
               <Route path="/user/profile/:_id" element={<UserProfile />} />
+              <Route path="/message/label/:_id" element={<LabelledMessages />} />
               <Route path="*" element={<Navigate to='/' />} />
             </Routes>
           </div>

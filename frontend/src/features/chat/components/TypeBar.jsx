@@ -25,17 +25,17 @@ function TypeBar() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="flex items-center px-4 py-3 bg-slate-950 border-t border-darkblue-700/50 nset-0 backdrop-blur-md">
+            <div className="flex items-center px-1 md:px-4 py-3 bg-slate-950 border-t border-darkblue-700/50 backdrop-blur-md">
                 <input
                     type="text"
                     name='message'
                     value={form.message}
                     onChange={handleChange}
                     placeholder="Type your message..."
-                    className="flex-1 px-4 py-3 bg-slate-900 text-white rounded-lg focus:outline-none"
+                    className="flex-1 px-2 md:px-4 py-1.5 md:py-3 bg-slate-900 text-white rounded-lg focus:outline-none"
                 />
-                <button type='submit' className='bg-slate-900 px-4 py-3 rounded-lg flex items-center justify-center cursor-pointer transition mx-3'>
-                    <MdSend className='h-6 w-6 hover:scale-110' />
+                <button type='submit' className='bg-slate-900 px-1 md:px-4 py-2.5 rounded-lg flex items-center justify-center cursor-pointer transition ml-1 md:mx-3'>
+                    <MdSend className='h-4 md:h-6 w-4 md:w-6 hover:scale-110' />
                 </button>
             </div>
         </form>

@@ -2,6 +2,7 @@ import React from 'react';
 import Logout from '../features/auth/components/Logout';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { FaRegStar } from "react-icons/fa";
 
 const Button = ({ children, onClick }) => {
     return (
@@ -31,6 +32,7 @@ export default function Sidebar() {
 
             {/* Navigation Icons */}
             <div className="flex flex-col gap-6">
+                <Button onClick={() => navigate(`/message/label/${user._id}`)}><FaRegStar className='mx-auto' /></Button>
                 <Button onClick={() => navigate('/')}>🏠</Button>
                 <Button onClick={() => navigate('/chat')}>💬</Button>
                 <Button onClick={() => navigate(`/user/profile/${user._id}`)}>⚙️</Button>
