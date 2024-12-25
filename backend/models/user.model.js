@@ -8,6 +8,9 @@ const userSchema = Schema({
     // confirmPassword: { type: String, require: true},
     about: {type: String, default: "Hello there! I am using Social Media"},
     phone: {type: String, default: ""},
+    groups: [
+        { type: Schema.Types.ObjectId, ref: "Group", default: [] }
+    ]
 },
 {
     timestamps: true //createdAt and UpdatedAt

@@ -19,10 +19,12 @@ app.use(cors({
 app.use(express.json()); // to parse req.body
 
 import userRoute from "./routes/user.route.js";
-import messageRoute from "./routes/message.route.js"
+import messageRoute from "./routes/message.route.js";
+import groupRoute from "./routes/group.route.js";
 
 app.use("/user", userRoute);
 app.use("/message", messageRoute);
+app.use("/group", groupRoute);
 
 const port = process.env.PORT || 5000;
 const URI = process.env.MONGODB_URI;

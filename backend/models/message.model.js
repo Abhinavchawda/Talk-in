@@ -3,7 +3,11 @@ import User from "./user.model.js";
 
 const messageSchema = new Schema({
     senderId: { type: mongoose.Schema.Types.ObjectId, ref: User, require: true },
-    receiverId: { type: mongoose.Schema.Types.ObjectId, ref: User, require: true },
+    isGroupMessage: { type: Boolean, default: false },
+    groupName: { type: String, default: "" },
+    receiverId: [
+        { type: mongoose.Schema.Types.ObjectId, ref: User, require: true }
+    ],
     message: {
         type: String, require: true, trim: true, validate: [
             {
@@ -12,6 +16,7 @@ const messageSchema = new Schema({
             }
         ]
     },
+    label: { type: String, default: "" },   //like personal, starred, important, etc
     createdAt: { type: Date, default: Date.now }
 },
     {
