@@ -21,10 +21,14 @@ app.use(express.json()); // to parse req.body
 import userRoute from "./routes/user.route.js";
 import messageRoute from "./routes/message.route.js";
 import groupRoute from "./routes/group.route.js";
+import chatRoute from "./routes/chat.route.js";
+import aiRoute from "./routes/ai.route.js";
 
 app.use("/user", userRoute);
 app.use("/message", messageRoute);
 app.use("/group", groupRoute);
+app.use("/chat", chatRoute);
+app.use("/ai", aiRoute);
 
 const port = process.env.PORT || 5000;
 const URI = process.env.MONGODB_URI;

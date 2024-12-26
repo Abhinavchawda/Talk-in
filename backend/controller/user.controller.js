@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import createTokenAndSaveCookie from "../jwt/generateToken.js";
+import Group from "../models/group.model.js";
 
 export const signup = async (req, res) => {
     try {
@@ -92,6 +93,7 @@ export const getAllUsersProfile = async (req, res) => {
         const loggenInUser = req?.user?._id;   
         //we want all users except the loggedInUser     
         const filteredUsers = await User.find({ _id: { $ne: loggenInUser } }).select("name email");
+        // const groups = await Group.find({ members: req.user._id});        
         res.status(201).json(filteredUsers);
     } catch (error) {
         console.log("ERROR in user.controller.js in getAllUsersProfile() : ", error);

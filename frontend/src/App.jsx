@@ -12,6 +12,8 @@ import Sidebar from "./components/Sidebar";
 import UserProfile from "./components/UserProfile";
 import Protected from "./features/auth/Protected";
 import LabelledMessages from "./components/LabelledMessages";
+import CreateGroup from "./features/group/components/CreateGroup";
+import AiChat from "./features/ai/components/AiChat";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,12 +55,12 @@ function App() {
                       {selectedChatUser ? <Right /> : <Left />}
                     </div>
                     <div className="hidden md:flex w-full">
-                      <div className="w-full md:w-[30%]">
+                      <div className="w-full md:w-[40%] lg:w-[30%]">
                         <Left />
                       </div>
 
                       {selectedChatUser ?
-                        <div className="w-full md:w-[70%] flex-1">
+                        <div className="w-full md:w-[60%] lg:w-[70%] flex-1">
                           <Right />
                         </div>
                         :
@@ -74,6 +76,8 @@ function App() {
               <Route path="/signup" element={isAuthenticated ? <Navigate to='/' /> : <Signup />} />
               <Route path="/user/profile/:_id" element={<UserProfile />} />
               <Route path="/message/label/:_id" element={<LabelledMessages />} />
+              <Route path="/group/create" element={<CreateGroup />} />
+              <Route path="/ai-chat" element={<AiChat />} />
               <Route path="*" element={<Navigate to='/' />} />
             </Routes>
           </div>

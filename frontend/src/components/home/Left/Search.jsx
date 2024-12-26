@@ -7,6 +7,8 @@ function Search() {
     const dispatch = useDispatch();
     const [form, setForm] = useState("");
 
+    const searchString = useSelector(state => state.search.searchString);
+
     const handleChange = (e) => {
         setForm(e.target.value);
         dispatch(setsearchString(e.target.value));      //updating the value of serachString
@@ -25,7 +27,7 @@ function Search() {
                     name='form'
                     value={form}
                     onChange={handleChange}
-                    className="grow" placeholder="Search" />
+                    className="grow" placeholder={searchString} />
                     <button >
                         <IoSearch className='hover:scale-110 h-5 w-5' />
                     </button>

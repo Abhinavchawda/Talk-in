@@ -10,7 +10,7 @@ function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:8080/user/getAllUsersProfile/", {
+        const response = await fetch("http://localhost:8080/chat/getAllChats/", {
           method: "GET",
           credentials: "include"
         });
@@ -26,11 +26,12 @@ function Users() {
   }, []);
 
   return (
-    <div className='overflow-y-auto h-[65vh] my-2'>
-      {users && users.filter((item) =>
+    <div className='overflow-y-auto max-h-[80vh] my-2'>
+      {users && users
+      .filter((item) =>
         (item.name?.toLowerCase().trim().includes(searchString.toLowerCase().trim()) || item.email?.toLowerCase().trim().includes(searchString.toLowerCase().trim()))
-      ).
-      map((u, index) => {
+      )
+      .map((u, index) => {
         return <UserCard key={index} userData={u} />;
       })}
     </div>

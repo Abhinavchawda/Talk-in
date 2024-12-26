@@ -1,9 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 import User from "./user.model.js";
+import Group from "./group.model.js";
 
 const messageSchema = new Schema({
     senderId: { type: mongoose.Schema.Types.ObjectId, ref: User, require: true },
     isGroupMessage: { type: Boolean, default: false },
+    groupId: { type: mongoose.Schema.Types.ObjectId, ref: Group, default: null },
     groupName: { type: String, default: "" },
     receiverId: [
         { type: mongoose.Schema.Types.ObjectId, ref: User, require: true }
