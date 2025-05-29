@@ -58,7 +58,7 @@ const LabelledMessages = () => {
   }
 
   return (
-    <div className='min-h-screen md:w-[40%] lg:max-w-[30%] bg-black p-4 text-white'>
+    <div className='h-screen overflow-y-auto md:w-[40%] lg:max-w-[30%] bg-black p-4 text-white'>
       <h1 className='text-xl text-white py-2 font-semibold'>Labelled Messages</h1>
       <hr className='border-gray-700 mb-4' />
       {

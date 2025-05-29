@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import User from "../models/user.model.js";
 import { getReceiverSocketId, io } from "../socketIO/server.js";
 
 export const sendMessage = async (req, res) => {
@@ -9,7 +10,7 @@ export const sendMessage = async (req, res) => {
         // cosnst { message } = req.body;
 
         const { id: receiverId } = req.params;  //receiver id
-        
+
         const senderId = req.user._id;  //loggedIn user is sendig messages, so it is sender
 
         //use let if const give error
@@ -29,9 +30,9 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id);
         }
         await Promise.all([newMessage.save(), conversation.save()]);
-        
+
         const receeiverSocketId = getReceiverSocketId(receiverId);
-        if(receeiverSocketId) {
+        if (receeiverSocketId) {
             io.to(receeiverSocketId).emit("newMessage", newMessage);
         }
 
@@ -64,20 +65,19 @@ export const getMessage = async (req, res) => {
         console.log("ERROR in message.controller.js in getMessage() : ", error);
         res.status(500).json({ message: "Server err in message.controller.js in getMessage()" });
     }
-} 
+}
 
 export const getLabelledMessages = async (req, res) => {
     try {
         const userId = req.user._id; // Extract user ID from JWT: secuteRoute middleware        
-        const labeledMessages = await Message.find({ 
-            $or: [
-                { senderId: userId },
-                { receiverId: userId }
-            ], 
-            label: "star" 
-        }).sort({ createdAt: -1 }).populate('receiverId', 'name') // Populate receiver's name
-        .exec(); // Sort by latest
-        res.status(200).json(labeledMessages);
+        let { labelledMessages } = await User.findById(userId).select("labelledMessages").sort({ createdAt: -1 }).populate({
+            path: "labelledMessages",
+            populate: {
+                path: "receiverId",
+                model: "User"
+            }
+        });
+        res.status(200).json(labelledMessages);
     }
     catch (error) {
         console.log("ERROR in message.controller.js in getLabelledMessages() : ", error);
@@ -85,15 +85,50 @@ export const getLabelledMessages = async (req, res) => {
     }
 }
 
-export const updateLabel = async (req, res) => {    
+export const updateLabel = async (req, res) => {
     try {
         const { id } = req.params; // Extract message ID from URL
+        const userId = req.user._id;
+
         const updatedLabel = req.body; // Extract label from request body        
         await Message.findByIdAndUpdate(id, updatedLabel); // Update label in database
+
+        if (updatedLabel.label == "") {
+            const user = await User.findById(userId);
+            user.labelledMessages = user.labelledMessages.filter((messageId) => messageId != id);
+            user.save();
+        }
+        else {
+            const user = await User.findById(userId);
+            user?.labelledMessages?.push(id);
+            user.save();
+        }
         res.status(200).json({ message: "Label updated successfully" });
     }
     catch (error) {
         console.log("ERROR in message.controller.js in updateLabel() : ", error);
         res.status(500).json({ message: "Server err in message.controller.js in updateLabel()" });
     }
+}
+
+export const deleteMessage = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract message ID from URL
+        const userId = req.user._id;
+        Message.findByIdAndDelete(id).then(async (error, message) => {
+            if (error) {
+                return res.status(500).json({ message: "Server error in message.controller.js in deleteMessage()" });
+            }
+            const user = await User.findById(userId);
+            user.labelledMessages = user.labelledMessages.filter((messageId) => messageId != id);
+            user.save();
+            let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
+            conversation.messages = conversation.messages.filter((messageId) => messageId != id);
+            conversation.save();
+            res.status(200).json({ message: "Message deleted successfully" });
+        });
+    } catch(error) {
+        console.log("ERROR in message.controller.js in deleteMessage() : ", error);
+        res.status(500).json({ message: "Server err in message.controller.js in deleteMessage()" });
+    }   
 }

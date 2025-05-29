@@ -9,6 +9,8 @@ function MessageCard(props) {
 
     // Initialize state for the label (star or empty)
     const [label, setLabel] = useState(messageData.label || ""); // Default to empty if no label
+    
+    let holdTimeout; // Timeout for tap & hold to delete
 
     // Function to format the createdAt time
     const formatTime = (timestamp) => {
@@ -42,8 +44,54 @@ function MessageCard(props) {
         }
     };
 
+    // Delete message function
+    const deleteMessage = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/message/delete/${messageData._id}`, {
+                method: "DELETE",
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                props.onDelete(messageData._id); // Inform parent to update UI
+            } else {
+                console.error("Failed to delete message");
+            }
+        } catch (error) {
+            console.error("Error deleting message:", error);
+        }
+    };
+
+    // Handle right-click to delete (desktop)
+    const handleRightClick = (event) => {
+        event.preventDefault(); // Prevent the default context menu
+        if (messageData.senderId === loggedInUserId) {
+            if (window.confirm("Do you want to delete this message?")) {
+                deleteMessage();
+            }
+        }
+    };
+    
+    // Handle tap & hold to delete (mobile)
+    const handleTouchStart = () => {
+        if (messageData.senderId === loggedInUserId) {
+            holdTimeout = setTimeout(() => {
+                if (window.confirm("Do you want to delete this message?")) {
+                    deleteMessage();
+                }
+            }, 500); // 0.5-second hold
+        }
+    };
+    const handleTouchEnd = () => {
+        clearTimeout(holdTimeout); // Cancel if user releases before 0.5 seconds
+    };
+
     return (
-        <div>
+        <div
+            onContextMenu={handleRightClick} // Right-click for desktop
+            onTouchStart={handleTouchStart} // Start detecting touch for mobile
+            onTouchEnd={handleTouchEnd} // End touch detection
+        >
             {(messageData?.senderId === loggedInUserId)
                 ?
                 <div className="chat chat-end  ml-10 md:ml-28">

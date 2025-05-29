@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MessageCard from './MessageCard.jsx';
 import Loading from "../../../components/Loading.jsx";
 import useGetMessages from '../useGetMessages.js';
@@ -6,7 +6,8 @@ import useGetSocketMessage from '../../socket/useGetSocketMessage.jsx';
 
 function Messages() {
     
-    const { messages, loading } = useGetMessages();
+    const { messages: fetchedMessages, loading } = useGetMessages(); // Messages fetched initially
+    const [messages, setMessages] = useState(fetchedMessages); // Local state for messages
     
     useGetSocketMessage();  //to get real-time messages
     
@@ -15,8 +16,19 @@ function Messages() {
         setTimeout(() => {
             lastMessageRef.current?.scrollIntoView({ behavior: "smooth"});
         }, 100);
-    }, [messages]);
+    }, [fetchedMessages]);
 
+    // Update local messages state when fetchedMessages change
+    useEffect(() => {
+        setMessages(fetchedMessages);
+    }, [fetchedMessages]);
+
+    // Callback to handle message deletion
+    const handleDeleteMessage = (messageId) => {
+        setMessages((fetchedMessages) =>
+            fetchedMessages.filter((message) => message._id !== messageId)
+        );
+    };
 
     return (
         <div style={{ minHeight: "calc(100vh - 20vh)" }} className='overflow-y-auto px-1'>
@@ -24,7 +36,7 @@ function Messages() {
                 loading ? (<Loading />)
                     :
                     (messages.length > 0 && messages?.map((item, index) => {
-                        return <div key={index} ref={lastMessageRef}><MessageCard message={item} /></div>;
+                        return <div key={index} ref={lastMessageRef}><MessageCard onDelete={handleDeleteMessage} message={item} /></div>;
                     }))
             }
 

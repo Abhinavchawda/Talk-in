@@ -10,6 +10,9 @@ const userSchema = Schema({
     phone: {type: String, default: ""},
     groups: [
         { type: Schema.Types.ObjectId, ref: "Group", default: [] }
+    ],
+    labelledMessages: [
+        { type: Schema.Types.ObjectId, ref: "Message", default: [] }
     ]
 },
 {
