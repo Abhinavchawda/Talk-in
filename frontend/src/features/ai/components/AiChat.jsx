@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { FaCopy } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
 
+import parse from 'html-react-parser';
+
 export default function AiChat() {
   const [form, setForm] = useState({ prompt: "" });
   const [error, setError] = useState("");
   const [result, setResult] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -36,7 +38,16 @@ export default function AiChat() {
       }
 
       const data = await response.json();
-      setResult(data || "No response from AI.");
+      
+      const rawHtml = data;
+
+      // Extract the body content using regex
+      const bodyContentMatch = rawHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+      const bodyContent = bodyContentMatch ? bodyContentMatch[1] : rawHtml;
+
+      const parsedData = parse(bodyContent); // Parse only the body content
+
+      setResult(parsedData || "No response from AI.");
     } catch (error) {
       console.error("Error in AI chat:", error);
       setError("Something went wrong. Please try again.");
@@ -48,14 +59,14 @@ export default function AiChat() {
   const handleCopy = () => {
     // navigator.clipboard.writeText(result);
     navigator.clipboard
-    .writeText(result)
-    .then(() => {
-      alert("Response copied to clipboard!");
-    })
-    .catch((error) => {
-      console.error("Failed to copy text: ", error);
-      alert("Failed to copy. Please try again.");
-    });
+      .writeText(result)
+      .then(() => {
+        alert("Response copied to clipboard!");
+      })
+      .catch((error) => {
+        console.error("Failed to copy text: ", error);
+        alert("Failed to copy. Please try again.");
+      });
     // alert("Response copied to clipboard!"); // Notify user
   };
 
